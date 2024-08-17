@@ -1,0 +1,1 @@
+A web parser that parses Yahoo's Finance Most Active Stocks page (https://finance.yahoo.com/markets/stocks/most-active/) to get the 25 most active stocks and displaying them in a table on an  web server using PHP.
