@@ -3,10 +3,12 @@ from bs4 import BeautifulSoup
 from pymongo import MongoClient
 import time
 
+#Setup
 client = MongoClient()
 db = client["data"]
 collection = db['most_active_stocks']
 
+#Function to scrape the data
 def get_data():
     headers = {'User-Agent': 'Mozilla/5.0'}
     r = requests.get("https://finance.yahoo.com/most-active", headers=headers)
@@ -36,6 +38,7 @@ def get_data():
 
     return data
 
+#Updates the existing collection with new scraped data
 while True:
     data = get_data()
     if data:
@@ -45,5 +48,5 @@ while True:
                 {'$set': item},  
                 upsert=True 
             )
-            
+#Wait for 3 minutes then scrape top stocks again.
     time.sleep(180)
