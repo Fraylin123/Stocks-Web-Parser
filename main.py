@@ -7,10 +7,8 @@ client = MongoClient()
 db = client["data"]
 collection = db['most_active_stocks']
 
-
 def get_data():
     headers = {'User-Agent': 'Mozilla/5.0'}
-    
     r = requests.get("https://finance.yahoo.com/most-active", headers=headers)
 
     if (r.status_code != 200):
@@ -18,10 +16,9 @@ def get_data():
         print (r.status_code)
         exit()
 
-
     soup = BeautifulSoup(r.text,"html.parser")
     data = []
-
+    
     table = soup.find('tbody')
     rows = table.find_all('tr')
     index = 0
@@ -37,13 +34,10 @@ def get_data():
             'Volume': cols[5].get_text()
         })
 
-    
-        
     return data
 
 while True:
     data = get_data()
-    
     if data:
         for item in data:
             collection.update_one(
@@ -53,5 +47,3 @@ while True:
             )
             
     time.sleep(180)
-    
-    
